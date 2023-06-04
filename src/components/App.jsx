@@ -15,6 +15,22 @@ export class App extends Component {
     searchName: '',
   };
 
+  storageKey = 'contacts';
+
+  componentDidMount() {
+    const savedContacts = localStorage.getItem(this.storageKey);
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem(this.storageKey, JSON.stringify(contacts));
+    }
+  }
+
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
